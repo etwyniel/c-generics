@@ -2,17 +2,9 @@
 
 include(generics.m4)
 dnl
-define(`_opt_struct_name', ``struct _vec_'_type_token(`$1')')dnl
-define(`_vec_define_type', `_opt_struct_name(`$1')` {size_t cap; size_t size; $1 *data;};
-'')dnl
-define(`_vec_define_all_types', `ifdef(`_vec_registered_types',dnl
-`_vec_define_type(_vec_registered_types)popdef(`_vec_registered_types')_vec_define_all_types')')dnl
-dnl
-define(`_vec_register_type', `ifdef(`_def_vec_$2', `',dnl
-`define(`_def_vec_$2')pushdef(`_vec_registered_types', `$1')')')dnl
-define(`VEC', `_opt_struct_name(`$1')dnl
-ifdef(``_def_vec_'_type_token(`$1')', `', `define(``_def_vec_'_type_token(`$1')')dnl
-_register_type(_vec_define_type(`$1'))`)')dnl
+define(`_vec_struct_name', ``struct _vec_'_type_token(`$1')')dnl
+define(`_vec_define_type', `_vec_struct_name(`$1')` {size_t cap; size_t size; $1 *data;}'')dnl
+define(`VEC', `_register_type(_vec_define_type(`$1'))_vec_struct_name(`$1')')dnl
 dnl
 define(`VEC_NEW', `ifelse(`$#', `2',dnl
 `_scope(`__l', `({size_t __l = $2; (VEC(`$1')) {__l, 0, malloc(__l * sizeof(`$1'))};})')',dnl
@@ -40,7 +32,3 @@ PUSH_ALL_UNCHECKED_P($@)dnl
 __v;})')')dnl
 define(`LEN', `($1.size)')dnl
 define(`LEN_P', `($1->size)')dnl
-dnl
-dnl
-dnl divert(incr(divnum))dnl
-dnl m4wrap(`divert(decr(divnum))_vec_define_all_types`'undivert(incr(divnum))')dnl
