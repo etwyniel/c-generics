@@ -26,7 +26,10 @@ debug: CFLAGS += -g -DDEBUG
 debug: all
 
 # Target to make .c.m4 files without writing intermediate .c files to disk
-${PRG}: ${M4SCRIPTS} ${PRE}
+#${PRG}: ${M4SCRIPTS} ${PRE}
+#	${M4} ${M4FLAGGS} $@.c.m4 | ${CC} -x c - ${CFLAGS} ${CPPFLAGS} ${LDFLAGS} ${LDLIBS} -o $@
+
+%: ${M4SCRIPTS} %.c.m4
 	${M4} ${M4FLAGGS} $@.c.m4 | ${CC} -x c - ${CFLAGS} ${CPPFLAGS} ${LDFLAGS} ${LDLIBS} -o $@
 
 %.c: %.c.m4 ${M4SCRIPTS}

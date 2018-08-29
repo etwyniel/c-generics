@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-include(`option.m4')
+include(option.m4)
 
 OPTION(int) side_effects(int num) {
 	printf("I'm side effect n°%d\n", num);
@@ -41,6 +41,10 @@ int main() {
 	if (IS_SOME_P(str)) {
 		printf("Got some: %s\n", OPT_UNWRAP_P(str));
 	}
+	
+	OPTION(char) ch = SOME(char, 'a');
+	printf("ch: %c\n", OPT_UNWRAP(ch));
+
 	free(i);
 	free(str);
 	return 0;

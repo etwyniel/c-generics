@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-include(`vec.m4')
+include(vec.m4)
 
 int main() {
 	VEC(int) v;
