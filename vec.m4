@@ -31,17 +31,33 @@ __v->cap *= 2; dnl
 __v->data = realloc(__v->data,sizeof(*__v->data) * __v->cap); dnl
 })»)»)dnl
 dnl
+define(«_vec_double», «({ dnl
+if ($1.cap == 0) $1.cap = 1; dnl
+$1.cap *= 2; dnl
+$1.data = realloc($1.data,sizeof(*$1.data) * $1.cap); dnl
+})»)dnl
+dnl
 define(«_push_unchecked_p», «($1)->data[($1)->size++]=($2); »)dnl
+define(«_push_unchecked», «$1.data[$1.size++]=($2); »)dnl
 dnl
 define(«PUSH_ALL_UNCHECKED_P», «ifelse(«$#», «2»,dnl
 «_push_unchecked_p($1, $2)»,dnl
 «ifelse(eval(«$# > 1»), «1»,dnl
 «_push_unchecked_p(«$1», «$2»)PUSH_ALL_UNCHECKED_P(«$1», shift(shift($@)))»)»)»)dnl
 dnl
+define(«PUSH_ALL_UNCHECKED», «ifelse(«$#», «2»,dnl
+«_push_unchecked($1, $2)»,dnl
+«ifelse(eval(«$# > 1»), «1»,dnl
+«_push_unchecked(«$1», «$2»)PUSH_ALL_UNCHECKED(«$1», shift(shift($@)))»)»)»)dnl
+dnl
 define(«PUSH_P», «_scope(«__v», «({dnl
 __auto_type __v = ($1);dnl
 while(__v->size + eval(«$# - 1»)>=__v->cap) _vec_double_p(__v);dnl
 PUSH_ALL_UNCHECKED_P(__v, shift($@))dnl
 __v;})»)»)dnl
+define(«PUSH», «({dnl
+while($1.size + eval(«$# - 1») >= $1.cap) _vec_double($1);dnl
+PUSH_ALL_UNCHECKED($1, shift($@))dnl
+$1;})»)dnl
 define(«LEN», «(($1).size)»)dnl
 define(«LEN_P», «(($1)->size)»)dnl
