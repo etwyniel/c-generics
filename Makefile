@@ -1,11 +1,10 @@
 # Makefile
- 
-CC=gcc
+
 CPPFLAGS= -MMD -D_XOPEN_SOURCE=500
 CFLAGS= -Wall -Wextra -std=c99 -O2
 LDFLAGS=
 LDLIBS=
- 
+
 PRE := $(wildcard *.c.m4)
 SRC := ${PRE:.c.m4=.c}
 OBJ= ${SRC:.c=.o}
@@ -18,7 +17,6 @@ M4SCRIPTS= $(filter-out $(PRE),$(wildcard *.m4))
 
 .INTERMEDIATE: ${SRC}
 .PHONY: all clean debug
-.SUFFIXES: .c.m4 .c
 
 all: ${PRG}
 
@@ -34,7 +32,7 @@ debug: all
 
 %.c: %.c.m4 ${M4SCRIPTS}
 	${M4} ${M4FLAGS} $< > $*.c
- 
+
 string.m4: vec.m4
 
 clean:
