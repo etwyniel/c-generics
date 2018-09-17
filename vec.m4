@@ -13,6 +13,7 @@ define(«VEC_NEW», «ifelse(«$#», «2»,dnl
 «_scope(«__l», «({size_t __l = $2; (VEC(«$1»)) {__l, 0, malloc(__l * sizeof(«$1»))};})»)»,dnl
 «(VEC(«$1»)) {0, 0, NULL}»)»)dnl
 define(«VEC_FREE_P», «_scope(«__v», «({__auto_type __v = ($1); free(__v->data); __v->size = 0; __v->cap = 0;})»)»)dnl
+define(«VEC_FREE», «({free($1.data); $1.size = 0; $1.cap = 0;})»)dnl
 dnl
 define(«_vec_slice_p», «_scope(«__l1», «__l2», «__v», «dnl
 ({size_t __l1 = ($3); size_t __l2 = ($4); __auto_type __v = ($2);dnl
